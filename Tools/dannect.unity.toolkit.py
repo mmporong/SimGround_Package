@@ -10,24 +10,10 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 # #region 프로젝트 폴더 및 패키지 정보 (최상단에 위치)
 # =========================
 project_dirs = [
-<<<<<<< Updated upstream
-    r"E:\5.1.3.3_Experiment",
-    # 40개 프로젝트 경로를 여기에 추가하세요
-    # 예시:
-    # r"E:\Project1",
-    # r"E:\Project2",
-    # r"E:\Project3",
-    # ... 계속 추가
-    
-    # 자동 스캔 기능을 원한다면 아래 함수를 사용하세요
-    # get_unity_projects_from_directory(r"E:\UnityProjects")
-=======
-    r"E:\3.1.2.2_ClassifyAnimals",
-    r"E:\3.1.2.3_AroundAnimals",
-    r"E:\4.1.2.8_GetWater",
-    # ... 필요시 추가
 
->>>>>>> Stashed changes
+    r"E:\5.1.3.2_SolubilityObservation",
+    r"E:\5.1.3.3_SolubilityWeight",
+    # ... 필요시 추가
 ]
 
 def get_unity_projects_from_directory(base_dir):
@@ -60,12 +46,13 @@ def get_unity_projects_from_directory(base_dir):
 
 git_packages = {
     "com.boxqkrtm.ide.cursor": "https://github.com/boxqkrtm/com.unity.ide.cursor.git",
-    "com.dannect.toolkit": "https://github.com/Dannect/SimGround_Package.git"
+    "com.dannect.toolkit": "https://github.com/mmporong/SimGround_Package.git"
+    
     # 필요시 추가
 }
 
 # Git 설정
-GIT_BASE_URL = "https://github.com/Dannect/"
+GIT_BASE_URL = "https://github.com/mmporong/"
 DEFAULT_BRANCH = "main"
 DEV_BRANCH = "dev"
 
@@ -162,7 +149,7 @@ def get_branch_hierarchy_info(project_path, branch_name):
     if not success:
         return 0, 0
     
-    # 브랜치의 최근 커밋 시간 가져오기 (Unix timestamp)
+    # 브랜치의 최근 커밋 시간 가져오기 (Unix timestamp) 
     success, last_commit_time, stderr = run_git_command(f"git log -1 --format=%ct {branch_name}", project_path)
     if not success:
         return int(commit_count) if commit_count.isdigit() else 0, 0

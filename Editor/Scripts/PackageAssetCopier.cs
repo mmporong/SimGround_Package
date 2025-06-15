@@ -15,6 +15,9 @@ public class PackageAssetCopier
 
     public static void CopyFilesFromPackage()
     {
+        // 사전 검증 추가
+        ValidatePrefabFiles();
+        
         // 프리팹 복사
         CopyPrefabFromPackage();
         // 빌드 스크립트 복사
@@ -23,8 +26,8 @@ public class PackageAssetCopier
 
     public static void CopyPrefabFromPackage()
     {
-        string packagePrefabPath = "Packages/com.dannect.toolkit/Runtime/Prefabs/Warning_Pop.prefab";
-        string projectPrefabPath = "Assets/04.Prefabs/Warning/Prefabs/Warning_Pop.prefab";
+        string packagePrefabPath = "Packages/com.dannect.toolkit/Runtime/Prefabs/SuccessPopup.prefab";
+        string projectPrefabPath = "Assets/04.Prefabs/SuccessPopup.prefab";
 
         string absPackagePath = Path.GetFullPath(packagePrefabPath);
         string absProjectPath = Path.GetFullPath(projectPrefabPath);
@@ -119,6 +122,45 @@ public class PackageAssetCopier
         AssetDatabase.Refresh();
 
         Debug.Log("패키지 빌드 스크립트를 프로젝트로 복사 완료!");
+    }
+
+    // 프리팹 파일 검증 메서드 추가
+    private static void ValidatePrefabFiles()
+    {
+        Debug.Log("=== 패키지 프리팹 파일 검증 시작 ===");
+        
+        string[] requiredPrefabs = {
+            "SuccessPopup.prefab",
+            // 필요한 다른 프리팹들 추가 가능
+        };
+        
+        string prefabFolder = "Packages/com.dannect.toolkit/Runtime/Prefabs";
+        
+        foreach (string prefabName in requiredPrefabs)
+        {
+            string prefabPath = Path.Combine(prefabFolder, prefabName);
+            if (File.Exists(prefabPath))
+            {
+                Debug.Log($"✅ {prefabName} 존재 확인");
+            }
+            else
+            {
+                Debug.LogError($"❌ {prefabName} 파일 없음! 경로: {prefabPath}");
+                
+                // 대안 파일 제안
+                if (Directory.Exists(prefabFolder))
+                {
+                    Debug.Log("📁 현재 존재하는 프리팹 파일들:");
+                    string[] existingFiles = Directory.GetFiles(prefabFolder, "*.prefab");
+                    foreach (string file in existingFiles)
+                    {
+                        Debug.Log($"  - {Path.GetFileName(file)}");
+                    }
+                }
+            }
+        }
+        
+        Debug.Log("=== 패키지 프리팹 파일 검증 완료 ===");
     }
 }
 #endif 
